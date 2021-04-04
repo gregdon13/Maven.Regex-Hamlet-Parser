@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class HamletParser {
 
     private String hamletData;
+    private FileWriter myWriter;
 
     public HamletParser(){
         this.hamletData = loadFile();
@@ -21,8 +23,12 @@ public class HamletParser {
         try(Scanner scanner = new Scanner(file)){
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
-                result.append(line).append("\n");
+                String newLine = line.replaceAll("(?i)\\bHamlet", "Leon").replaceAll("(?i)\\bHoratio\\b", "Tariq");
+                result.append(newLine).append("\n");
             }
+            myWriter = new FileWriter("replacedText.txt");
+            myWriter.write(result.toString());
+            myWriter.close();
 
             scanner.close();
         }catch(IOException e){
@@ -34,6 +40,10 @@ public class HamletParser {
 
     public String getHamletData(){
         return hamletData;
+    }
+
+    public void setHamletData() {
+        loadFile();
     }
 
 }
